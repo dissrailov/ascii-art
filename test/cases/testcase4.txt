@@ -1,0 +1,18 @@
+func Test(t *testing.T) {
+	texts := []string{"HELLO", "hello", "HeLlo", "1Hello 2There", "Hello\nThere", "Hello\n\nThere",  "{Hello There}", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz"}
+	file, err := functions.ReadFile("standard.txt")
+	if err != nil {
+		return
+	}
+	for i := 0; i < 9; i++ {
+		path := fmt.Sprintf("testcases/test%d.txt", i+1)
+		want, err := os.ReadFile(path)
+		if err != nil {
+			return
+		}
+		have := functions.PrintAscii(texts[i], file)
+		if string(want) != have {
+			t.Fatalf("want - %s, have %s", want, have)
+		}
+	}
+}
